@@ -3,7 +3,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file
-COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY target/microuser.jar microuser.jar
 
 # Expose the port your app runs on
 EXPOSE 8080
