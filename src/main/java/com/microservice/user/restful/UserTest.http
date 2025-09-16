@@ -1,0 +1,33 @@
+GET http://localhost:8080/v1/users/find
+Accept: application/json
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password":"admin123"
+}
+
+###
+
+POST http://localhost:8080/v1/users/save
+Accept: application/json
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password":"admin123"
+}
+
+###
+
+PUT http://localhost:8080/v1/users/update/1
+Accept: application/json
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password":"admin123"
+}
