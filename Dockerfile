@@ -6,7 +6,7 @@ WORKDIR /app
 COPY target/microuser.jar microuser.jar
 
 # Expose the port your app runs on
-EXPOSE 8080
+EXPOSE 8091
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "microuser.jar"]
