@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean compile' // Use 'sh' for Linux, 'bat' for Windows
+                bat 'mvn clean compile'
                 echo 'Application compiled'
             }
         }
@@ -38,14 +38,14 @@ pipeline {
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml' // Archive test results
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package -DskipTests' // Skip tests since we already ran them
+                bat 'mvn package -DskipTests'
                 echo 'Application packaged'
             }
         }
@@ -60,6 +60,8 @@ pipeline {
 
                         // Build Docker image
                         bat """
+                            docker stop ${CONTAINER_NAME} \
+                            docker rm ${CONTAINER_NAME} \
                             docker build -t ${DOCKER_IMAGE} .
                         """
                         echo "Docker image ${DOCKER_IMAGE} built successfully"
