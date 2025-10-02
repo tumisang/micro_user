@@ -60,7 +60,7 @@ pipeline {
 
                         // Build Docker image
                         bat """
-                            docker -f rm ${CONTAINER_NAME} \
+                            docker rm -f ${CONTAINER_NAME} \
                             docker build -t ${DOCKER_IMAGE} .
                         """
                         echo "Docker image ${DOCKER_IMAGE} built successfully"
