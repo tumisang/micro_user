@@ -53,12 +53,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Verify JAR file exists before building Docker image
                     def jarPath = "${BUILD_DIR}\\${JAR_FILE}"
                     if (fileExists(jarPath)) {
                         echo "Building Docker image from JAR file: ${jarPath}"
 
-                        // Build Docker image
                         bat """
                             docker build -t ${DOCKER_IMAGE} .
                         """
@@ -73,7 +71,6 @@ pipeline {
         stage('Deploy with Docker') {
             steps {
                 script {
-                    // Run new container instance
                     bat """
                         docker run -d \
                           --name ${CONTAINER_NAME} \
@@ -84,7 +81,6 @@ pipeline {
 
                     echo "Container ${CONTAINER_NAME} started from image ${DOCKER_IMAGE}"
 
-                    // Wait a bit and check container status
                     sleep 10
                     bat "docker ps -f name=${CONTAINER_NAME}"
                 }
@@ -94,21 +90,16 @@ pipeline {
     post {
         always {
             echo 'Pipeline execution completed'
-            // Archive artifacts including Docker related files
             archiveArtifacts artifacts: 'target/*.jar, target/*.war, Dockerfile', allowEmptyArchive: true
-            // Only clean if you're sure you want to remove everything
-            // cleanWs()
+            cleanWs()
         }
         success {
             echo 'Pipeline succeeded! Docker container deployed successfully'
-            // Display container information
             bat "docker ps -f name=${CONTAINER_NAME}"
         }
         failure {
             echo 'Pipeline failed. Check logs for details.'
-            // Keep workspace on failure for debugging
             bat 'echo Workspace preserved for debugging'
-            // Show container logs if deployment failed
             bat "docker logs ${CONTAINER_NAME} 2>nul || echo 'No container logs available'"
         }
     }
